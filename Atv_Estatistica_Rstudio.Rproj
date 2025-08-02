@@ -27,20 +27,21 @@ write_xlsx(tabela_frequencia_corte, "tabela_frequencia_corte.xlsx")
 
 #Crie um gráfico de barras para visualizar a variável corte do dataset diamante, do pacote dados.
 
-ggplot(dados::diamante, aes(x = cor)) +
-  geom_bar(fill = "steelblue") +
-  geom_text(
-    stat = "count",
-    aes(label = after_stat(count)),
-    vjust = 1.2,
-    color = "white",    
-    size = 4
-  ) +
+## Calcular a frequência de cada categoria da variável 'cor'
+tabela_cor <- dados::diamante %>%
+  count(cor)
+
+## Criar o gráfico de barras com cores em degradê azul
+ggplot(tabela_cor, aes(x = cor, y = n, fill = n)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = n), vjust = 1.5, color = "white", size = 4) +   #acrescentar valores nas barras
+  scale_fill_gradient(low = "lightblue", high = "darkblue") +  # Degradê azul claro → azul escuro
   labs(
     x = "Cor",
     y = "Frequência"
   ) +
   theme_minimal() +
   theme(
+    legend.position = "none",  # Oculta legenda de cor (opcional)
     axis.text.x = element_text(angle = 0, hjust = 1)
   )
