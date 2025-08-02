@@ -25,7 +25,7 @@ tabela_frequencia_corte <- dados::diamante %>%
 tabela_frequencia_corte
 write_xlsx(tabela_frequencia_corte, "tabela_frequencia_corte.xlsx")
 
-#Crie um gráfico de barras para visualizar a variável corte do dataset diamante, do pacote dados.
+#Crie um gráfico de barras para visualizar a variável cor do dataset diamante, do pacote dados.
 
 ## Calcular a frequência de cada categoria da variável 'cor'
 tabela_cor <- dados::diamante %>%
