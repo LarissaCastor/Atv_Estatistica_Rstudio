@@ -1,0 +1,46 @@
+#Carregamento de Bibliotecas
+
+library(dados)
+library(dplyr)
+library(writexl)
+library(ggplot2)
+
+
+#Carregue o pacote dados e avalie as variáveis do dataset diamante. Qual o tipo de cada uma delas?
+
+diamante <- diamante
+diamante
+str(dados::diamante)
+
+# Criar tabela de frequências
+
+tabela_frequencia_corte <- dados::diamante %>%
+  count(corte) %>%                                         # frequência absoluta
+  arrange(desc(corte)) %>%
+  mutate(
+    freq_relativa = (n / sum(n))*100,                      # frequência relativa
+    freq_abs_acumulada = cumsum(n),                        # frequência absoluta acumulada
+    freq_rel_acumulada = (cumsum(freq_relativa))*100       # frequência relativa acumulada
+  )
+tabela_frequencia_corte
+write_xlsx(tabela_frequencia_corte, "tabela_frequencia_corte.xlsx")
+
+#Crie um gráfico de barras para visualizar a variável corte do dataset diamante, do pacote dados.
+
+ggplot(dados::diamante, aes(x = cor)) +
+  geom_bar(fill = "steelblue") +
+  geom_text(
+    stat = "count",
+    aes(label = after_stat(count)),
+    vjust = 1.2,
+    color = "white",    
+    size = 4
+  ) +
+  labs(
+    x = "Cor",
+    y = "Frequência"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 0, hjust = 1)
+  )
